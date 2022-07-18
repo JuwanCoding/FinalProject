@@ -45,6 +45,8 @@
 							value="${sitrequest.detailAddress }" /> <c:out
 							value="${sitrequest.extraAddress }" /></span>
 				</div>
+				<button class="move btn btn-primary" data-sitter="${sitrequest.writer }">매니저정보</button>
+				
 				
 			</div>
 
@@ -141,12 +143,11 @@
 							<input type="radio" name="ordType" id="orderTypeSelect1" 
 								value="datetime" onclick="div_edtchg('datetime')" checked>기간설정
 							<input type="radio" name="ordType" id="orderTypeSelect2"
-								value="settime" onclick="div_edtchg('settime')">`타임설정
+								value="settime" onclick="div_edtchg('settime')">타임설정
 						</div>
 						<!-- div_edtchg은 함수호출 이름, 괄호안에는 호출하면서 넘길 값 -->
-					</div>
 					<!-- 날짜시간 같이있는 타입 -->
-					<div class="modal-body">
+		
 						<div class="orderType date" id="datetimetype">
 							<div class="dateSelectBefore">
 								<p>
@@ -345,6 +346,41 @@
 	</div>
 </div>
 <!-- 프로필 보기 끝 -->
+<!-- 시터 리뷰 모달 -->
+<div class="modal fade right" id="sitterModal" tabindex="-1" role="dialog" aria-labelledby="sitterModalLabel"
+  aria-hidden="true" data-backdrop="false">
+  <div class="modal-dialog modal-side modal-bottom-right modal-notify modal-info modal-lg" role="document">
+    <!--Content-->
+    <div class="modal-content">
+      <!--Header-->
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">매니저 정보</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+        </button>
+      </div>
+      <!--Body-->
+      <div class="modal-body">
+        <div class="row">		
+          	&nbsp;&nbsp;&nbsp;돌봄매니저 : <div class="col-10 fw-bold" id="sitter"></div>
+            &nbsp;&nbsp;&nbsp;돌봄 횟수 : <div class="col-10" id="cnt"></div>
+          	&nbsp;&nbsp;&nbsp;별 점 : <div class="my-rating-3 col-10"></div>
+         </div>
+         <br>
+         <div  id="reviewSize" class="form-group" style="height: 300px; overflow: auto;">
+          
+			 <ol class="reviewList list-group list-group-numbered">	 
+			</ol>
+		</div> 
+      </div>
+      <!--Footer-->
+      <div class="modal-footer justify-content-center">
+        <a type="button" id="sitterModalCloseBtn" class="btn btn-outline-info waves-effect" data-dismiss="modal">닫기</a>
+      </div>
+    </div>
+    <!--/.Content-->
+  </div>
+</div>
+
 
 
 <form id="matchingForm" action="/sitrequest/matching" method="post">
@@ -623,7 +659,7 @@ $(".my-rating-2").starRating({
       var modalInputStartTime = modal.find("input[name='startTime']");
       var modalInputEndTime = modal.find("input[name='endTime']");
       var modalInputPayment = modal.find("input[name='payment']");
-      var imgfile =document.getElementById("imgfile").src;	
+     // var imgfile =document.getElementById("imgfile").src;	
       
       var modalRegisterBtn = $("#modalRegisterBtn");
       var modalModBtn = $("#modalModBtn");
@@ -688,22 +724,6 @@ $(".my-rating-2").starRating({
       modalRegisterBtn.on("click", function(e){
           var form = new FormData();
 
-/*          const reply = {
-               reply : modalInputReply.val(),
-               replyer : modalInputReplyer.val(),
-               petType : modalInputPetType.val(),
-               address : modalInputaddress.val(),
-               detailAddress : modalInputdetailAddress.val(),
-               extraAddress : modalInputextraAddress.val(),
-               startDateTime : modalInputStartDateTime.val(),
-               endDateTime : modalInputEndDateTime.val(),
-               startDate : modalInputStartDate.val(),
-               endDate : modalInputEndDate.val(),
-               startTime : modalInputStartTime.val(),
-               endTime : modalInputEndTime.val(),
-               sbno : sbnoValue,
-               file : file
-         }; */
           if(imgfile==null){
          	 alert('사진을 등록해주세요.');
           }
@@ -1127,6 +1147,78 @@ $(".my-rating-2").starRating({
          $("#cnt").text(sitterReview.count);   
    
       });
+      
+      $(".move").on("click", function(e) {
+			console.log(sitterVal);
+
+			$(".my-rating-3").starRating({
+				initialRating: 1,
+				totalStars: 5,
+				starShape: 'rounded',
+				ratedColors: ['orange', 'orange', 'orange', 'orange', '#CCCCCC'],
+
+			    starSize: 25,
+			    readOnly: true,
+
+			});
+			$(".my-rating-3").starRating('setRating', 5, true);
+
+			$(".my-rating-3").starRating({
+
+				ratedColors: ['orange', 'orange', 'orange', 'orange', 'orange'],
+
+
+			});
+
+			
+			sitterService.get(sitterVal,function(sitterReview) {
+				$("#sitterModal").find("#sitter").text(sitterVal);
+				$(".my-rating-3").starRating('setRating', sitterReview.totalAvg);
+				$("#sitterModal").find("#avg").text(sitterReview.totalAvg);
+				$("#sitterModal").find("#cnt").text(sitterReview.count);	
+	
+				
+			});
+			
+		
+			
+			var reviewList = $(".reviewList");
+
+			sitterService.getList(sitterVal,
+				function(list) {
+					
+					var str = "";
+					if (list == null || list.length == 0) {
+						$("#reviewSize").css("height","30px");
+						reviewList.html("남겨진 리뷰가 없습니다.");
+						return;
+						} 
+					$("#reviewSize").css("height","300px");
+
+					for (var i = 0, len = list.length || 0; i < len; i++) {
+						
+
+
+							
+						str += '<li class="list-group-item d-flex justify-content-between align-items-start"><div class="col-md-10 ms-2 me-auto"><div> 요청자 : ' + list[i].requester
+						+ '</div> 리뷰 : ' + list[i].review + '</div><div> 별점 : ' +list[i].average+ '</div></li>';
+
+						// 리뷰, 작성자, 평점, 날짜
+						
+						
+
+						} 
+					reviewList.html(str);
+				});
+		
+			
+			$("#sitterModal").modal("show");
+			
+		});
+      $("#sitterModalCloseBtn").on("click", function(e){
+    	  $("#sitterModal").modal("hide");
+		});
+			
 
    });
 </script>

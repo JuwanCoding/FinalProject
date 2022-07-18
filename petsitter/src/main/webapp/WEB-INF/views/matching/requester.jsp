@@ -303,7 +303,6 @@
 			</div>
 			</small>
 	</div>
-	
 
 					</div>
 				</div>
@@ -311,9 +310,6 @@
 		<div class="text-content" id="content">		
 		</div>		
 	</div>
-	
-	
-	
 				<div class="modal-footer">
 		            <button id="requestCloseBtn" type="button" class="btn btndefault">닫기</button>
 		        </div>

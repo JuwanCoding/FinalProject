@@ -120,51 +120,36 @@
            			<div class="row gx-4 gx-lg-5 align-items-center">
 
 						<div class="col-md-4">
-							<img id="petImg" class="card-img-top mb-5 mb-md-0" alt="..." onerror="this.src='/resources/images/user.png'">
-						</div>
+			<img id="petImg" class="card-img-top mb-5 mb-md-0" alt="..." 
+			onerror="this.src='/resources/images/logo-white.png'" style="width:100%; height: 100%;">
+		</div>
 		
-		
-		<div class="col-md-4">
-		
-		
-		
-			<div class="fs-5 mb-5">
-				<span id="requester"></span>
+		<div class="col-md-8">
+			<div class="fs-5 mb-3">
+				요청자 : <span id="requester"></span>
 			</div>
-        	
-			<p id="petType">
-			</p>
-			
+        	<div class="mb-3">
+			펫 종류 : <span id="petType"></span>
+			</div>
 			<small class="text-muted">
-			
-			<div id="address"></div>
-
-
-		
-							
-												
+			<div class="mb-3">
+			주소 : <span  id="address"></span>
+			</div>
+			<div class="mb-3"></div>
 			<div id="DateTime"></div>
-					
 			<div id="DateTime2">
-				
 			<div id="Date"></div>
 			<div id="Time"></div>
 			</div>
 			</small>
-		</div>
-		
-		<div class="col-md-4">
-			<div class="text-content" id="content">
-				
-			</div>		
-		</div>
+	</div>
 
 					</div>
 				</div>
-	
-	
-	
-	
+	<div class="col-md-12">
+		<div class="text-content" id="content">		
+		</div>		
+	</div>
 				<div class="modal-footer">
 		            <button id="requestCloseBtn" type="button" class="btn btndefault">닫기</button>
 		        </div>
