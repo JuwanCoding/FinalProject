@@ -99,7 +99,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		]]>
 	</select>
 	
-	
 	<update id="updateReplyCnt">
 	 update tbl_sitrequest set replycnt=replycnt + #{amount}
 	 where sbno=#{sbno}
