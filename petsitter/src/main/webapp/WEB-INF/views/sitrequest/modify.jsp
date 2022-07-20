@@ -157,8 +157,7 @@
                      e.preventDefault();/* 기본 이벤트 동작 막기. */
                      var operation = $(this).data("oper");
                      
-                     var startDate = '${sitrequest.startDate }'
-                   	 var endDate = '${sitrequest.endDate }'
+
                      /* 버튼에서 oper 속성 읽어서 변수에 할당. */
                      console.log(operation);
                      /* 브라우저 로그로 oper값 출력. */
@@ -184,8 +183,7 @@
                         formObj.append(pageNumTag);
                         formObj.append(amountTag);
                         }
-                     console.log(startDate);
-                     console.log(endDate);
+
                      formObj.submit();
                      /* 위의 조건이 아니라면 수정 처리. */
                   });

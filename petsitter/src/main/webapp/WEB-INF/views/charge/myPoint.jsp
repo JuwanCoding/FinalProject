@@ -10,7 +10,7 @@
 
 
 <div class="second" align="center">
-                    <img class="card-img-top" width="20" height="300" src="/files/kakao.jpg" alt="..." />
+                    <img class="card-img-top" width="10" height="30" src="/resources/images/카카오페이.png" alt="..." />
                     <p style="font-weight: bold">카카오페이 현재 사용가능</p>
                     <label class="box-radio-input"><input type="radio" name="cp_item" value="5000"><span>5,000원</span></label>
                     <label class="box-radio-input"><input type="radio" name="cp_item" value="10000"><span>10,000원</span></label>
